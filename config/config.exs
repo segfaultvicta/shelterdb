@@ -12,7 +12,7 @@ config :shelterdb,
 
 # Configures the endpoint
 config :shelterdb, ShelterdbWeb.Endpoint,
-  url: [host: "localhost"],
+  url: [host: "shelterdbdev.aludel.xyz"],
   secret_key_base: "pbH61aL8SBMmScHQ3dWI0x+IfX357nHb5zB3uuSbpUovPGqaRcsB9KtW4DtZNAEF",
   render_errors: [view: ShelterdbWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Shelterdb.PubSub,
@@ -25,6 +25,17 @@ config :logger, :console,
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
+
+config :shelterdb, :pow,
+  user: Shelterdb.Users.User,
+  repo: Shelterdb.Repo,
+  extensions: [PowResetPassword, PowInvitation],
+  controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks,
+  web_module: ShelterdbWeb,
+  web_mailer_module: ShelterdbWeb,
+  mailer_backend: ShelterdbWeb.Pow.Mailer
+
+
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

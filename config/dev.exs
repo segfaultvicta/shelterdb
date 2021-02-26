@@ -3,7 +3,7 @@ use Mix.Config
 # Configure your database
 config :shelterdb, Shelterdb.Repo,
   username: "postgres",
-  password: "postgres",
+  password: "B4h4mUtz3r0",
   database: "shelterdb_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
@@ -16,7 +16,14 @@ config :shelterdb, Shelterdb.Repo,
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
 config :shelterdb, ShelterdbWeb.Endpoint,
-  http: [port: 4000],
+  https: [
+    port: 4001,
+    cipher_suite: :strong,
+    otp_app: :shelterdb,
+    certfile: "priv/cert/fullchain.pem",
+    keyfile: "priv/cert/privkey.pem"
+  ],
+  force_ssl: [hsts: true],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
@@ -64,6 +71,12 @@ config :shelterdb, ShelterdbWeb.Endpoint,
       ~r"lib/shelterdb_web/templates/.*(eex)$"
     ]
   ]
+
+config :shelterdb, Shelterdb.Mailer,
+  adapter: Bamboo.LocalAdapter
+
+config :shelterdb, ShelterdbWeb.Pow.Mailer,
+  adapter: Bamboo.LocalAdapter
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"

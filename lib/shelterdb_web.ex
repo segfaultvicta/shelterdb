@@ -76,6 +76,13 @@ defmodule ShelterdbWeb do
     end
   end
 
+  def mailer_view do
+    quote do
+      use Phoenix.View, root: "lib/shelterdb_web/templates", namespace: ShelterdbWeb
+      use Phoenix.HTML
+    end
+  end
+
   defp view_helpers do
     quote do
       # Use all HTML functionality (forms, tags, etc)

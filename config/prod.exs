@@ -10,11 +10,35 @@ use Mix.Config
 # which you should run after static files are built and
 # before starting your production server.
 config :shelterdb, ShelterdbWeb.Endpoint,
-  url: [host: "example.com", port: 80],
+  url: [host: System.get_env("RENDER_EXTERNAL_HOSTNAME") || "localhost", port: 443],
+  https: [
+    port: 443,
+    cipher_suite: strong,
+    keyfile: "IDKLOL",
+    certfile: "IDKLOL",
+    transport_options: [socket_opts: [:inet6]]
+  ],
+  force_ssl: [hsts: true],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production
 config :logger, level: :info
+
+config :shelterdb, Shelterdb.Mailer,
+  adapter: Bamboo.MailgunAdapter,
+  api_key: "MAILGUN_API_KEY",
+  domain: "MAILGUN_DOMAIN",
+  hackney_opts: [
+    recv_timeout: :timer.minutes(1)
+  ]
+
+  config :shelterdb, ShelterdbWeb.Pow.Mailer,
+  adapter: Bamboo.MailgunAdapter,
+  api_key: "MAILGUN_API_KEY",
+  domain: "MAILGUN_DOMAIN",
+  hackney_opts: [
+    recv_timeout: :timer.minutes(1)
+  ]
 
 # ## SSL Support
 #
